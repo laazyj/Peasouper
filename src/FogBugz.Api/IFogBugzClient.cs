@@ -9,8 +9,8 @@ namespace FogBugz.Api
         void Logout();
 
         IEnumerable<Filter> GetFilters();
-        Filter GetFilter(FilterId id);
-        //void SetFilter(int filterId);
+        void SetFilter(Filter filter);
+        void SetFilter(FilterId id);
 
         //IEnumerable<Case> GetCases(string query, string[] columns, int maxRecords);
     }

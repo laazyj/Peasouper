@@ -1,5 +1,7 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Linq;
+using FogBugz.Api.Domain;
 using NUnit.Framework;
 
 namespace FogBugz.Api.Tests
@@ -7,10 +9,9 @@ namespace FogBugz.Api.Tests
     [TestFixture]
 	public class FogBugzIntegrationTest
 	{
-	    string _fogBugzLogin;
+        readonly string _fogBugzLogin;
         readonly string _fogBugzUrl;
-	    string _fogBugzPassword;
-        readonly bool _integrationTestsEnabled;
+        readonly string _fogBugzPassword;
 
         public FogBugzIntegrationTest()
 	    {
@@ -57,6 +58,41 @@ namespace FogBugz.Api.Tests
 	            throw;
 	        }
 	    }
+
+        [Test]
+        public void SetCurrentFilterTest()
+        {
+            var subject = getIntegrationTestClient();
+            loginAsIntegrationUser(subject);
+            try
+            {
+                var filters = subject.GetFilters().ToArray();
+                if (filters.Count(x => x.Type != FilterType.BuiltIn) < 2)
+                    Assert.Ignore("Unable to run integration test, there must be at least 2 non built-in filters available.");
+
+                var f1 = filters.First(x => x.Type != FilterType.BuiltIn);
+                var f2 = filters.First(x => x != f1 && x.Type != FilterType.BuiltIn);
+
+                subject.SetFilter(f1);
+                Assert.AreEqual(f1, subject.GetCurrentFilter());
+                subject.SetFilter(f2);
+                Assert.AreEqual(f2, subject.GetCurrentFilter());
+
+                // TODO: SetCurrentFilter command is not raising an error, but the filter list isn't showing the current status.
+                subject.SetFilter(f1.Id);
+                var current = subject.GetCurrentFilter();
+                Assert.NotNull(current, "No current filter set.");
+                Assert.AreEqual(f1.Id, current.Id);
+
+                subject.SetFilter(f2.Id);
+                Assert.AreEqual(f2.Id, subject.GetCurrentFilter().Id);
+            }
+            catch (Exception)
+            {
+                subject.Logout();
+                throw;
+            }
+        }
 
         FogBugzClient getIntegrationTestClient()
         {

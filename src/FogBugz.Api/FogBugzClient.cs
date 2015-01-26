@@ -85,7 +85,19 @@ namespace FogBugz.Api
 	        return FiltersListParser.Filters;
 	    }
 
-        /// <summary>
+	    public void SetFilter(FilterId id)
+	    {
+	        executeFogBugzApiCommand("setCurrentFilter", new {sFilter = id});
+	        _currentFilter = null;
+	    }
+
+	    public void SetFilter(Filter filter)
+	    {
+	        SetFilter(filter.Id);
+	        _currentFilter = filter;
+	    }
+
+	    /// <summary>
         /// Return the currently selected filter. This will not result in an Api call if the Filters list has already been loaded.
         /// </summary>
         /// <returns></returns>
@@ -95,11 +107,6 @@ namespace FogBugz.Api
                 GetFilters();
             return _currentFilter;
         }
-
-        public Filter GetFilter(FilterId id)
-	    {
-	        throw new NotImplementedException();
-	    }
 
 	    public void EnsureApiVersion()
 	    {

@@ -9,6 +9,11 @@
             _value = val;
         }
 
+        public override string ToString()
+        {
+            return _value;
+        }
+
         public static explicit operator FilterId(string value)
         {
             return new FilterId(value);

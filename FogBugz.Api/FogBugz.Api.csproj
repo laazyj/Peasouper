@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{E5E5DA54-BEE9-474F-8148-989B308073A7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>FogBugz.Api</RootNamespace>
+    <AssemblyName>FogBugz.Api</AssemblyName>
+    <TargetFrameworkProfile>Profile78</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Domain\Area.cs" />
+    <Compile Include="Domain\AttachmentIconId.cs" />
+    <Compile Include="Domain\Case.cs" />
+    <Compile Include="Domain\CaseId.cs" />
+    <Compile Include="Domain\Category.cs" />
+    <Compile Include="Domain\CategoryId.cs" />
+    <Compile Include="Domain\DiscussionId.cs" />
+    <Compile Include="Domain\Event.cs" />
+    <Compile Include="Domain\EventId.cs" />
+    <Compile Include="Domain\Filter.cs" />
+    <Compile Include="Domain\FilterId.cs" />
+    <Compile Include="Domain\Milestone.cs" />
+    <Compile Include="Domain\ISupportPartialRetrieval.cs" />
+    <Compile Include="Domain\Mailbox.cs" />
+    <Compile Include="Domain\MailboxId.cs" />
+    <Compile Include="Domain\Person.cs" />
+    <Compile Include="Domain\PersonId.cs" />
+    <Compile Include="Domain\Priority.cs" />
+    <Compile Include="Domain\Project.cs" />
+    <Compile Include="Domain\Status.cs" />
+    <Compile Include="Domain\StatusId.cs" />
+    <Compile Include="Exceptions\AmbiguousLogonException.cs" />
+    <Compile Include="Exceptions\FogBugzException.cs" />
+    <Compile Include="Exceptions\NotLoggedInException.cs" />
+    <Compile Include="Exceptions\UnsupportedApiVersionException.cs" />
+    <Compile Include="FogBugzHttpClient.cs" />
+    <Compile Include="IFogBugzClient.cs" />
+    <Compile Include="IFogBugzClientAsync.cs" />
+    <Compile Include="Parsers\FiltersListParser.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FogBugzClient.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <ItemGroup>
+    <Reference Include="Flurl">
+      <HintPath>..\packages\Flurl.1.0.5\lib\portable-net40+sl50+win+wpa81+wp80+MonoAndroid10+MonoTouch10\Flurl.dll</HintPath>
+    </Reference>
+    <Reference Include="ModernHttpClient">
+      <HintPath>..\packages\modernhttpclient.2.1.5\lib\Portable-Net45+WinRT45+WP8+WPA81\ModernHttpClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog">
+      <HintPath>..\packages\Serilog.1.4.139\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+MonoTouch10\Serilog.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+</Project>

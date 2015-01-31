@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Xml.Linq;
 using Flurl;
 using FogBugz.Api.Domain;
@@ -89,6 +90,31 @@ namespace FogBugz.Api
 	    {
 	        executeFogBugzApiCommand("setCurrentFilter", new {sFilter = id});
 	        _currentFilter = null;
+	    }
+
+	    public IEnumerable<Case> GetCases(string query, string[] columns, int? maxRecords)
+	    {
+            // Ensure query is not parsed as a case #
+	        int x;
+	        if (int.TryParse(query, NumberStyles.Integer, null, out x))
+	            query = string.Format("\"{0}\"", query);
+
+	        var response = executeFogBugzApiCommand("search", new
+	            {
+	                q = query,
+	                cols = string.Join(",", columns),
+	                max = maxRecords
+	            });
+	        return new Case[0];
+	    }
+
+	    public Case GetCase(CaseId id)
+	    {
+	        var response = executeFogBugzApiCommand("search", new
+	            {
+	                q = id.ToString()
+	            });
+	        return null;
 	    }
 
 	    public void SetFilter(Filter filter)

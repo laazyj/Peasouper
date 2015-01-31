@@ -60,6 +60,7 @@
     <Compile Include="FogBugzHttpClient.cs" />
     <Compile Include="IFogBugzClient.cs" />
     <Compile Include="IFogBugzClientAsync.cs" />
+    <Compile Include="Parsers\CaseParser.cs" />
     <Compile Include="Parsers\FiltersListParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FogBugzClient.cs" />

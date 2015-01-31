@@ -18,5 +18,10 @@
         {
             return me._value;
         }
+
+        public static CaseId? FromInt(int val)
+        {
+            return val == 0 ? (CaseId?)null : (CaseId)val;
+        }
     }
 }

@@ -18,5 +18,10 @@
         {
             return me._value;
         }
+
+        public static EventId? FromInt(int val)
+        {
+            return (val == 0) ? (EventId?)null : (EventId)val;
+        }
     }
 }

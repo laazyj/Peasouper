@@ -2,6 +2,7 @@
 
 namespace FogBugz.Api.Domain
 {
+    // TODO: Protection on read-only fields.
     public class Case
     {
         /// <summary>
@@ -14,10 +15,10 @@ namespace FogBugz.Api.Domain
         public CaseId? Parent { get; set; }
         public CaseId[] Children { get; set; }
         public CaseId[] Duplicates { get; set; }
-        public CaseId Original { get; set; }
+        public CaseId? Original { get; set; }
         public CaseId[] Related { get; set; }
 
-        public bool Open { get; set; }
+        public bool IsOpen { get; set; }
 
         public string Title { get; set; }
         public string OriginalTitle { get; set; }
@@ -41,7 +42,7 @@ namespace FogBugz.Api.Domain
         public Status Status { get; set; }
         public Priority Priority { get; set; }
         public Milestone FixFor { get; set; }
-        public DateTime? Due { get; set; }
+        public DateTime? DueDate { get; set; }
 
         public string[] Tags { get; set; }
 
@@ -59,13 +60,14 @@ namespace FogBugz.Api.Domain
         public string ScoutDescription { get; set; }
         public string ScoutMessage { get; set; }
         public string ScoutStopReporting { get; set; }
+        public DateTime ScoutLastOccurrence { get; set; }
         public int Occurrences { get; set; }
 
         /// <summary>
         /// Current version of the case.
         /// </summary>
         public EventId LatestEvent { get; set; }
-        public EventId LatestTextEvent { get; set; }
+        public EventId? LatestTextEvent { get; set; }
 
         public bool Replied { get; set; }
         public bool Forwarded { get; set; }

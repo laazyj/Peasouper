@@ -12,6 +12,7 @@ namespace FogBugz.Api
         void SetFilter(Filter filter);
         void SetFilter(FilterId id);
 
-        //IEnumerable<Case> GetCases(string query, string[] columns, int maxRecords);
+        IEnumerable<Case> GetCases(string query, string[] columns, int? maxRecords);
+        Case GetCase(CaseId id);
     }
 }

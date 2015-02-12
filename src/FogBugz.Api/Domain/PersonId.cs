@@ -17,6 +17,11 @@
         public static implicit operator int(PersonId me)
         {
             return me._value;
-        }    
+        }
+
+        public static PersonId? FromInt(int val)
+        {
+            return (val == 0) ? (PersonId?)null : (PersonId)val;
+        }
     }
 }

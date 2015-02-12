@@ -1,4 +1,6 @@
-﻿namespace FogBugz.Api.Domain
+﻿using System.Xml.Linq;
+
+namespace FogBugz.Api.Domain
 {
    public struct MailboxId
     {
@@ -17,5 +19,10 @@
         public static implicit operator int(MailboxId me)
         {
             return me._value;
-        }    
+        }
+
+        public static MailboxId? FromInt(int val)
+        {
+            return (val == 0) ? (MailboxId?)null : (MailboxId)val;
+        }
     }}

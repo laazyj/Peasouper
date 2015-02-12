@@ -34,9 +34,9 @@ namespace FogBugz.Api.Domain
 
         public Person AssignedTo { get; set; }
         public PersonId OpenedBy { get; set; }
-        public PersonId ResolvedBy { get; set; }
-        public PersonId ClosedBy { get; set; }
-        public PersonId LastEditedBy { get; set; }
+        public PersonId? ResolvedBy { get; set; }
+        public PersonId? ClosedBy { get; set; }
+        public PersonId? LastEditedBy { get; set; }
 
         public Category Category { get; set; }
         public Status Status { get; set; }
@@ -50,16 +50,16 @@ namespace FogBugz.Api.Domain
         public string Computer { get; set; }
         public string ReleaseNotes { get; set; }
 
-        public int EstimateHoursOriginal { get; set; }
-        public int EstimateHoursCurrent { get; set; }
-        public int ElapsedHours { get; set; }
+        public decimal? EstimateHoursOriginal { get; set; }
+        public decimal? EstimateHoursCurrent { get; set; }
+        public decimal? ElapsedHours { get; set; }
 
         public string CustomerEmail { get; set; }
-        public MailboxId Mailbox { get; set; }
+        public MailboxId? Mailbox { get; set; }
 
         public string ScoutDescription { get; set; }
         public string ScoutMessage { get; set; }
-        public string ScoutStopReporting { get; set; }
+        public bool ScoutStopReporting { get; set; }
         public DateTime ScoutLastOccurrence { get; set; }
         public int Occurrences { get; set; }
 

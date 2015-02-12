@@ -42,10 +42,10 @@ namespace FogBugz.Api.Parsers
                             FullName = element.Element("sPersonAssignedTo"),
                             Email = element.Element("sEmailAssignedTo")
                         },
-                    OpenedBy = element.Element("ixPersonOpenedBy"),
-                    ResolvedBy = element.Element("ixPersonResolvedBy"),
-                    ClosedBy = element.Element("ixPersonClosedBy"),
-                    LastEditedBy = element.Element("ixPersonLastEditedBy"),
+                    OpenedBy = PersonId.FromInt(getInt(element.Element("ixPersonOpenedBy"))),
+                    ResolvedBy = PersonId.FromInt(getInt(element.Element("ixPersonResolvedBy"))),
+                    ClosedBy = PersonId.FromInt(getInt(element.Element("ixPersonClosedBy"))),
+                    LastEditedBy = PersonId.FromInt(getInt(element.Element("ixPersonLastEditedBy"))),
                     Status = new Status
                     {
                         Id = element.Element("ixStatus"),
@@ -62,39 +62,49 @@ namespace FogBugz.Api.Parsers
                             Name = element.Element("sFixFor"),
                             Date = element.Element("dtFixFor")
                         },
-                    Version = element.Element("sVersion"),
-                    Computer = element.Element("sComputer"),
-                    EstimateHoursOriginal = element.Element("hrsOrigEst"),
-                    EstimateHoursCurrent = element.Element("hrsCurrEst"),
-                    ElapsedHours = element.Element("hrsElapsed"),
-                    Occurrences = element.Element("c") + 1,
-                    CustomerEmail = element.Element("sCustomerEmail"),
-                    Mailbox = element.Element("ixMailbox"),
+                    Version = getString(element.Element("sVersion")),
+                    Computer = getString(element.Element("sComputer")),
+                    EstimateHoursOriginal = getDecimal(element.Element("hrsOrigEst")),
+                    EstimateHoursCurrent = getDecimal(element.Element("hrsCurrEst")),
+                    ElapsedHours = getDecimal(element.Element("hrsElapsed")),
+                    Occurrences = getInt(element.Element("c")) + 1,
+                    CustomerEmail = getString(element.Element("sCustomerEmail")),
+                    Mailbox = MailboxId.FromInt(getInt(element.Element("ixMailbox"))),
                     Category = new Category
                         {
                             Id = element.Element("ixCategory"),
                             Name = element.Element("sCategory")
                         },
-                    OpenedDate = element.Element("dtOpened"),
-                    ResolvedDate = element.Element("dtResolved"),
-                    ClosedDate = element.Element("dtClosed"),
-                    LatestEvent = element.Element("ixBugEventLatest"),
-                    LastUpdatedDate = element.Element("dtLastUpdated"),
-                    Replied = element.Element("fReplied"),
-                    Forwarded = element.Element("fForwarded"),
-                    Ticket = element.Element("sTicket"),
+                    OpenedDate = getDate(element.Element("dtOpened")),
+                    ResolvedDate = getDate(element.Element("dtResolved")),
+                    ClosedDate = getDate(element.Element("dtClosed")),
+                    LatestEvent = EventId.FromInt(getInt(element.Element("ixBugEventLatest"))),
+                    LastUpdatedDate = getDate(element.Element("dtLastUpdated")),
+                    Replied = getBool(element.Element("fReplied")),
+                    Forwarded = getBool(element.Element("fForwarded")),
+                    Ticket = getString(element.Element("sTicket")),
                     DiscussionTopic = element.Element("ixDiscussTopic"),
-                    DueDate = element.Element("dtDue"),
-                    ReleaseNotes = element.Element("sReleaseNotes"),
-                    LastViewedEvent = element.Element("ixBugEventLastView"),
-                    LastViewedDate = element.Element("dtLastView"),
-                    ScoutDescription = element.Element("sScoutDescription"),
-                    ScoutMessage = element.Element("sScountMessage"),
-                    ScoutStopReporting = element.Element("fScoutStopReporting"),
-                    ScoutLastOccurrence = element.Element("dtLastOccurrence"),
-                    Subscribed = element.Element("fSubscribed")
+                    DueDate = getDate(element.Element("dtDue")),
+                    ReleaseNotes = getString(element.Element("sReleaseNotes")),
+                    LastViewedEvent = EventId.FromInt(getInt(element.Element("ixBugEventLastView"))),
+                    LastViewedDate = getDate(element.Element("dtLastView")),
+                    ScoutDescription = getString(element.Element("sScoutDescription")),
+                    ScoutMessage = getString(element.Element("sScountMessage")),
+                    ScoutStopReporting = getBool(element.Element("fScoutStopReporting")),
+                    ScoutLastOccurrence = getDate(element.Element("dtLastOccurrence")),
+                    Subscribed = getBool(element.Element("fSubscribed"))
                 };
             var operations = element.Attribute("operations");
+        }
+
+        private static DateTime? getDate(XElement element)
+        {
+            return element == null ? (DateTime?) null : DateTime.Parse(element.Value);
+        }
+
+        private static decimal? getDecimal(XElement element)
+        {
+            return element == null ? (decimal?)null : decimal.Parse(element.Value);
         }
 
         static Project getProject(XElement element)

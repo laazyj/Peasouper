@@ -27,7 +27,7 @@ namespace FogBugz.Api.Domain
         public Project Project { get; set; }
         public Area Area { get; set; }
 
-        public DateTime OpenedDate { get; set; }
+        public DateTime? OpenedDate { get; set; }
         public DateTime? ResolvedDate { get; set; }
         public DateTime? ClosedDate { get; set; }
         public DateTime? LastUpdatedDate { get; set; }

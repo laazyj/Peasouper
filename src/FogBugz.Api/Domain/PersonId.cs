@@ -23,5 +23,10 @@
         {
             return (val == 0) ? (PersonId?)null : (PersonId)val;
         }
+
+        public override string ToString()
+        {
+            return _value.ToString();
+        }
     }
 }

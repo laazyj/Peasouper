@@ -25,4 +25,9 @@ namespace FogBugz.Api.Domain
         {
             return (val == 0) ? (MailboxId?)null : (MailboxId)val;
         }
+
+        public override string ToString()
+        {
+            return _value.ToString();
+        }
     }}

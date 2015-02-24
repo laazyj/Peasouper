@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using FogBugz.Api.Domain;
 using NUnit.Framework;
@@ -91,6 +92,35 @@ namespace FogBugz.Api.Tests
             {
                 subject.Logout();
                 throw;
+            }
+        }
+
+        [Test]
+        public void CaseDetailsTest()
+        {
+            var subject = getIntegrationTestClient();
+            loginAsIntegrationUser(subject);
+            try
+            {
+                var c = subject.GetCase((CaseId)1);
+                // Case #1 is always a welcome to FB case...
+                Assert.IsNotNull(c, "No case returned.");
+                Assert.AreEqual(1, c.Id);
+                Assert.AreEqual("\"Welcome to FogBugz\" Sample Case", c.Title);
+                Assert.AreEqual("Inbox", c.Project.Name);
+                Assert.AreEqual("Not Spam", c.Area.Name);
+                Assert.AreEqual("Undecided", c.FixFor.Name);
+                Assert.AreEqual("Bug", c.Category.Name);
+                Assert.AreEqual("Active", c.Status.Name);
+                Assert.AreEqual("1 - Must Fix", c.Status.Name);
+                Assert.IsNotNull(c.AssignedTo);
+                Assert.IsNotNull(c.AssignedTo.Id);
+                Assert.IsNotNull(c.AssignedTo.FullName);
+                Debug.WriteLine("Case assigned to: " + c.AssignedTo.FullName);
+            }
+            finally
+            {
+                subject.Logout();
             }
         }
 

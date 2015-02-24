@@ -23,5 +23,10 @@
         {
             return val == 0 ? (CaseId?)null : (CaseId)val;
         }
+
+        public override string ToString()
+        {
+            return _value.ToString();
+        }
     }
 }

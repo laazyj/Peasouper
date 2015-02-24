@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Xml.Linq;
 using Flurl;
 using FogBugz.Api.Domain;
@@ -20,6 +21,7 @@ namespace FogBugz.Api
 
 	    public IFogBugzHttpClient HttpClient { get; set; }
         public FiltersListParser FiltersListParser { get; set; }
+        public CaseParser CaseParser { get; set; }
 
 	    public FogBugzClient(string fogBugzUri, string existingLoginToken = null)
 	    {
@@ -27,6 +29,7 @@ namespace FogBugz.Api
 	        LoginToken = existingLoginToken;
 	        HttpClient = new FogBugzHttpClient();
 	        FiltersListParser = new FiltersListParser();
+	        CaseParser = new CaseParser();
 	    }
 
 	    public string FogBugzUri
@@ -110,11 +113,18 @@ namespace FogBugz.Api
 
 	    public Case GetCase(CaseId id)
 	    {
-	        var response = executeFogBugzApiCommand("search", new
-	            {
-	                q = id.ToString()
-	            });
-	        return null;
+            return GetCase(id, DefaultCaseColumns);
+        }
+
+	    public Case GetCase(CaseId id, string[] columns)
+	    {
+            var response = executeFogBugzApiCommand("search", new
+            {
+                q = id.ToString(),
+                cols = string.Join(",", columns)
+            });
+            CaseParser.Parse(response);
+            return CaseParser.Cases.FirstOrDefault();
 	    }
 
 	    public void SetFilter(Filter filter)

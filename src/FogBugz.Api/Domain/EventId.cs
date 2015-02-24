@@ -23,5 +23,10 @@
         {
             return (val == 0) ? (EventId?)null : (EventId)val;
         }
+
+        public override string ToString()
+        {
+            return _value.ToString();
+        }
     }
 }

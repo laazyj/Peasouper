@@ -23,5 +23,10 @@
         {
             return (val == 0) ? (DiscussionId?)null : (DiscussionId)val;
         }
+
+        public override string ToString()
+        {
+            return _value.ToString();
+        }
     }
 }

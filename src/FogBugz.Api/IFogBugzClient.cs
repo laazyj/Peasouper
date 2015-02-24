@@ -14,5 +14,6 @@ namespace FogBugz.Api
 
         IEnumerable<Case> GetCases(string query, string[] columns, int? maxRecords);
         Case GetCase(CaseId id);
+        Case GetCase(CaseId id, string[] columns);
     }
 }

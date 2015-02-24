@@ -32,6 +32,7 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CaseColumns.cs" />
     <Compile Include="Domain\Area.cs" />
     <Compile Include="Domain\AttachmentIconId.cs" />
     <Compile Include="Domain\Case.cs" />

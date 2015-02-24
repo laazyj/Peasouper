@@ -30,7 +30,7 @@ namespace FogBugz.Api.Domain
         public DateTime OpenedDate { get; set; }
         public DateTime? ResolvedDate { get; set; }
         public DateTime? ClosedDate { get; set; }
-        public DateTime LastUpdatedDate { get; set; }
+        public DateTime? LastUpdatedDate { get; set; }
 
         public Person AssignedTo { get; set; }
         public PersonId OpenedBy { get; set; }
@@ -60,13 +60,13 @@ namespace FogBugz.Api.Domain
         public string ScoutDescription { get; set; }
         public string ScoutMessage { get; set; }
         public bool ScoutStopReporting { get; set; }
-        public DateTime ScoutLastOccurrence { get; set; }
+        public DateTime? ScoutLastOccurrence { get; set; }
         public int Occurrences { get; set; }
 
         /// <summary>
         /// Current version of the case.
         /// </summary>
-        public EventId LatestEvent { get; set; }
+        public EventId? LatestEvent { get; set; }
         public EventId? LatestTextEvent { get; set; }
 
         public bool Replied { get; set; }
@@ -75,9 +75,9 @@ namespace FogBugz.Api.Domain
         /// id for customer to view bug (bug number + 8 letters e.g. 4003_XFLFFFCS)
         /// </summary>
         public string Ticket { get; set; }
-        public DiscussionId DiscussionTopic { get; set; }
+        public DiscussionId? DiscussionTopic { get; set; }
 
-        public EventId LastViewedEvent { get; set; }
+        public EventId? LastViewedEvent { get; set; }
         public DateTime? LastViewedDate { get; set; }
         public bool Subscribed { get; set; }
     }

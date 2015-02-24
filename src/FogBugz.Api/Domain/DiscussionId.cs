@@ -18,5 +18,10 @@
         {
             return me._value;
         }
+
+        public static DiscussionId? FromInt(int val)
+        {
+            return (val == 0) ? (DiscussionId?)null : (DiscussionId)val;
+        }
     }
 }

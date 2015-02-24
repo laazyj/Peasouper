@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Xml;
 using System.Xml.Linq;
 using FogBugz.Api.Domain;
 
@@ -10,17 +12,20 @@ namespace FogBugz.Api.Parsers
     {
         public void Parse(XElement response)
         {
-            var cases = response.Element("cases").Elements("case");
-            Cases = cases.Select(parseCase).ToArray();
+            var casesEle = response.Element("cases");
+            if (casesEle == null)
+                throw new XmlException("Expected outer element 'cases' was not found.");
+            var casesArr = casesEle.Elements("case");
+            Cases = casesArr.Select(parseCase).ToArray();
         }
 
-        Case parseCase(XElement element)
+        static Case parseCase(XElement element)
         {
             var result = new Case
                 {
                     Id = (CaseId)getInt(element.Element("ixBug")),
                     Parent = CaseId.FromInt(getInt(element.Element("ixBugParent"))),
-                    Children = getCaseIds(element.Element("ixChildren")),
+                    Children = getCaseIds(element.Element("ixBugChildren")),
                     Duplicates = getCaseIds(element.Element("ixBugDuplicates")),
                     Original = CaseId.FromInt(getInt(element.Element("ixBugOriginal"))),
                     Related = getCaseIds(element.Element("ixRelatedBugs")),
@@ -33,34 +38,34 @@ namespace FogBugz.Api.Parsers
                     Project = getProject(element),
                     Area = new Area
                         {
-                            Id = element.Element("ixArea"),
-                            Name = element.Element("sArea")
+                            Id = getInt(element.Element("ixArea")),
+                            Name = getString(element.Element("sArea"))
                         },
                     AssignedTo = new Person
                         {
-                            Id = element.Element("ixPersonAssignedTo"),
-                            FullName = element.Element("sPersonAssignedTo"),
-                            Email = element.Element("sEmailAssignedTo")
+                            Id = (PersonId)(getInt(element.Element("ixPersonAssignedTo"))),
+                            FullName = getString(element.Element("sPersonAssignedTo")),
+                            Email = getString(element.Element("sEmailAssignedTo"))
                         },
-                    OpenedBy = PersonId.FromInt(getInt(element.Element("ixPersonOpenedBy"))),
+                    OpenedBy = (PersonId)getInt(element.Element("ixPersonOpenedBy")),
                     ResolvedBy = PersonId.FromInt(getInt(element.Element("ixPersonResolvedBy"))),
                     ClosedBy = PersonId.FromInt(getInt(element.Element("ixPersonClosedBy"))),
                     LastEditedBy = PersonId.FromInt(getInt(element.Element("ixPersonLastEditedBy"))),
                     Status = new Status
                     {
-                        Id = element.Element("ixStatus"),
-                        Name = element.Element("sStatus")
+                        Id = (StatusId)getInt(element.Element("ixStatus")),
+                        Name = getString(element.Element("sStatus"))
                     },
                     Priority = new Priority
                         {
-                            Id = element.Element("ixPriority"),
-                            Name = element.Element("sPriority")
+                            Id = getInt(element.Element("ixPriority")),
+                            Name = getString(element.Element("sPriority"))
                         },
                     FixFor = new Milestone
                         {
-                            Id = element.Element("ixFixFor"),
-                            Name = element.Element("sFixFor"),
-                            Date = element.Element("dtFixFor")
+                            Id = (MilestoneId)getInt(element.Element("ixFixFor")),
+                            Name = getString(element.Element("sFixFor")),
+                            Date = getDate(element.Element("dtFixFor"))
                         },
                     Version = getString(element.Element("sVersion")),
                     Computer = getString(element.Element("sComputer")),
@@ -72,10 +77,10 @@ namespace FogBugz.Api.Parsers
                     Mailbox = MailboxId.FromInt(getInt(element.Element("ixMailbox"))),
                     Category = new Category
                         {
-                            Id = element.Element("ixCategory"),
-                            Name = element.Element("sCategory")
+                            Id = getInt(element.Element("ixCategory")),
+                            Name = getString(element.Element("sCategory"))
                         },
-                    OpenedDate = getDate(element.Element("dtOpened")),
+                    OpenedDate = getDate(element.Element("dtOpened")).Value,
                     ResolvedDate = getDate(element.Element("dtResolved")),
                     ClosedDate = getDate(element.Element("dtClosed")),
                     LatestEvent = EventId.FromInt(getInt(element.Element("ixBugEventLatest"))),
@@ -83,28 +88,32 @@ namespace FogBugz.Api.Parsers
                     Replied = getBool(element.Element("fReplied")),
                     Forwarded = getBool(element.Element("fForwarded")),
                     Ticket = getString(element.Element("sTicket")),
-                    DiscussionTopic = element.Element("ixDiscussTopic"),
+                    DiscussionTopic = DiscussionId.FromInt(getInt(element.Element("ixDiscussTopic"))),
                     DueDate = getDate(element.Element("dtDue")),
                     ReleaseNotes = getString(element.Element("sReleaseNotes")),
                     LastViewedEvent = EventId.FromInt(getInt(element.Element("ixBugEventLastView"))),
                     LastViewedDate = getDate(element.Element("dtLastView")),
                     ScoutDescription = getString(element.Element("sScoutDescription")),
-                    ScoutMessage = getString(element.Element("sScountMessage")),
+                    ScoutMessage = getString(element.Element("sScoutMessage")),
                     ScoutStopReporting = getBool(element.Element("fScoutStopReporting")),
                     ScoutLastOccurrence = getDate(element.Element("dtLastOccurrence")),
                     Subscribed = getBool(element.Element("fSubscribed"))
                 };
             var operations = element.Attribute("operations");
+            return result;
         }
 
         private static DateTime? getDate(XElement element)
         {
-            return element == null ? (DateTime?) null : DateTime.Parse(element.Value);
+            if (element == null || string.IsNullOrEmpty(element.Value)) 
+                return null;
+            
+            return DateTime.Parse(element.Value, null, DateTimeStyles.RoundtripKind);
         }
 
         private static decimal? getDecimal(XElement element)
         {
-            return element == null ? (decimal?)null : decimal.Parse(element.Value);
+            return element == null || string.IsNullOrEmpty(element.Value) ? (decimal?)null : decimal.Parse(element.Value);
         }
 
         static Project getProject(XElement element)
@@ -131,7 +140,7 @@ namespace FogBugz.Api.Parsers
         static CaseId[] getCaseIds(XElement element)
         {
             return getString(element)
-                .Split(',')
+                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(s => (CaseId)int.Parse(s)).ToArray();
         }
 
@@ -142,7 +151,7 @@ namespace FogBugz.Api.Parsers
 
         static int getInt(XElement element)
         {
-            return element == null ? 0 : int.Parse(element.Value);
+            return element == null || string.IsNullOrEmpty(element.Value) ? 0 : int.Parse(element.Value);
         }
 
         public Case[] Cases { get; private set; }

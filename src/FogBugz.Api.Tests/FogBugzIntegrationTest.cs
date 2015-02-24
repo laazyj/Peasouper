@@ -50,7 +50,7 @@ namespace FogBugz.Api.Tests
 	        {
 	            var filters = subject.GetFilters();
                 // There are always at least 2 built-in filters.
-	            Assert.GreaterOrEqual(2, filters.Count());
+	            Assert.GreaterOrEqual(filters.Count(), 2);
 	        }
 	        catch
 	        {
@@ -78,7 +78,7 @@ namespace FogBugz.Api.Tests
                 subject.SetFilter(f2);
                 Assert.AreEqual(f2, subject.GetCurrentFilter());
 
-                // TODO: SetCurrentFilter command is not raising an error, but the filter list isn't showing the current status.
+                // TODO: SetCurrentFilter command is not raising an error, but the filter list isn't showing the current status. Contacted Fog Creek support about this.
                 subject.SetFilter(f1.Id);
                 var current = subject.GetCurrentFilter();
                 Assert.NotNull(current, "No current filter set.");

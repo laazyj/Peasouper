@@ -21,6 +21,7 @@ namespace FogBugz.Api.Parsers
 
         static Case parseCase(XElement element)
         {
+            // ReSharper disable once UseObjectOrCollectionInitializer
             var result = new Case
             {
                 Id = (CaseId)int.Parse(element.Attribute("ixBug").Value)
@@ -40,73 +41,73 @@ namespace FogBugz.Api.Parsers
             result.Area = new Area
             {
                 Id = getInt(element.Element(CaseColumns.AreaId)),
-                Name = getString(element.Element("sArea"))
+                Name = getString(element.Element(CaseColumns.Area))
             };
             result.AssignedTo = new Person
             {
-                Id = (PersonId)(getInt(element.Element("ixPersonAssignedTo"))),
-                FullName = getString(element.Element("sPersonAssignedTo")),
-                Email = getString(element.Element("sEmailAssignedTo"))
+                Id = (PersonId)(getInt(element.Element(CaseColumns.AssignedToPersonId))),
+                FullName = getString(element.Element(CaseColumns.AssignedTo)),
+                Email = getString(element.Element(CaseColumns.AssignedToEmail))
             };
-            result.OpenedBy = (PersonId)getInt(element.Element("ixPersonOpenedBy"));
-            result.ResolvedBy = PersonId.FromInt(getInt(element.Element("ixPersonResolvedBy")));
-            result.ClosedBy = PersonId.FromInt(getInt(element.Element("ixPersonClosedBy")));
-            result.LastEditedBy = PersonId.FromInt(getInt(element.Element("ixPersonLastEditedBy")));
+            result.OpenedBy = (PersonId)getInt(element.Element(CaseColumns.OpenedByPersonId));
+            result.ResolvedBy = PersonId.FromInt(getInt(element.Element(CaseColumns.ResolvedByPersonId)));
+            result.ClosedBy = PersonId.FromInt(getInt(element.Element(CaseColumns.ClosedByPersonId)));
+            result.LastEditedBy = PersonId.FromInt(getInt(element.Element(CaseColumns.LastEditedByPersonId)));
             result.Status = new Status
             {
-                Id = (StatusId)getInt(element.Element("ixStatus")),
-                Name = getString(element.Element("sStatus"))
+                Id = (StatusId)getInt(element.Element(CaseColumns.StatusId)),
+                Name = getString(element.Element(CaseColumns.Status))
             };
             result.Priority = new Priority
             {
-                Id = getInt(element.Element("ixPriority")),
-                Name = getString(element.Element("sPriority"))
+                Id = getInt(element.Element(CaseColumns.PriorityId)),
+                Name = getString(element.Element(CaseColumns.Priority))
             };
             result.FixFor = new Milestone
             {
-                Id = (MilestoneId)getInt(element.Element("ixFixFor")),
-                Name = getString(element.Element("sFixFor")),
-                Date = getDate(element.Element("dtFixFor"))
+                Id = (MilestoneId)getInt(element.Element(CaseColumns.FixForMilestoneId)),
+                Name = getString(element.Element(CaseColumns.FixFor)),
+                Date = getDate(element.Element(CaseColumns.FixForDate))
             };
-            result.Version = getString(element.Element("sVersion"));
-            result.Computer = getString(element.Element("sComputer"));
-            result.EstimateHoursOriginal = getDecimal(element.Element("hrsOrigEst"));
-            result.EstimateHoursCurrent = getDecimal(element.Element("hrsCurrEst"));
-            result.ElapsedHours = getDecimal(element.Element("hrsElapsed"));
-            result.Occurrences = getInt(element.Element("c")) + 1;
-            result.CustomerEmail = getString(element.Element("sCustomerEmail"));
-            result.Mailbox = MailboxId.FromInt(getInt(element.Element("ixMailbox")));
+            result.Version = getString(element.Element(CaseColumns.Version));
+            result.Computer = getString(element.Element(CaseColumns.Computer));
+            result.EstimateHoursOriginal = getDecimal(element.Element(CaseColumns.EstimateHoursOriginal));
+            result.EstimateHoursCurrent = getDecimal(element.Element(CaseColumns.EstimateHoursCurrent));
+            result.ElapsedHours = getDecimal(element.Element(CaseColumns.ElapsedHours));
+            result.Occurrences = getInt(element.Element(CaseColumns.Occurrences)) + 1;
+            result.CustomerEmail = getString(element.Element(CaseColumns.CustomerEmail));
+            result.Mailbox = MailboxId.FromInt(getInt(element.Element(CaseColumns.MailboxId)));
             result.Category = new Category
             {
-                Id = getInt(element.Element("ixCategory")),
-                Name = getString(element.Element("sCategory"))
+                Id = getInt(element.Element(CaseColumns.CategoryId)),
+                Name = getString(element.Element(CaseColumns.Category))
             };
-            result.OpenedDate = getDate(element.Element("dtOpened"));
-            result.ResolvedDate = getDate(element.Element("dtResolved"));
-            result.ClosedDate = getDate(element.Element("dtClosed"));
-            result.LatestEvent = EventId.FromInt(getInt(element.Element("ixBugEventLatest")));
-            result.LastUpdatedDate = getDate(element.Element("dtLastUpdated"));
-            result.Replied = getBool(element.Element("fReplied"));
-            result.Forwarded = getBool(element.Element("fForwarded"));
-            result.Ticket = getString(element.Element("sTicket"));
-            result.DiscussionTopic = DiscussionId.FromInt(getInt(element.Element("ixDiscussTopic")));
-            result.DueDate = getDate(element.Element("dtDue"));
-            result.ReleaseNotes = getString(element.Element("sReleaseNotes"));
-            result.LastViewedEvent = EventId.FromInt(getInt(element.Element("ixBugEventLastView")));
-            result.LastViewedDate = getDate(element.Element("dtLastView"));
-            result.ScoutDescription = getString(element.Element("sScoutDescription"));
-            result.ScoutMessage = getString(element.Element("sScoutMessage"));
-            result.ScoutStopReporting = getBool(element.Element("fScoutStopReporting"));
-            result.ScoutLastOccurrence = getDate(element.Element("dtLastOccurrence"));
-            result.Subscribed = getBool(element.Element("fSubscribed"));
+            result.OpenedDate = getDate(element.Element(CaseColumns.OpenedDate));
+            result.ResolvedDate = getDate(element.Element(CaseColumns.ResolvedDate));
+            result.ClosedDate = getDate(element.Element(CaseColumns.ClosedDate));
+            result.LatestEvent = EventId.FromInt(getInt(element.Element(CaseColumns.LatestEventId)));
+            result.LastUpdatedDate = getDate(element.Element(CaseColumns.LastUpdatedDate));
+            result.Replied = getBool(element.Element(CaseColumns.Replied));
+            result.Forwarded = getBool(element.Element(CaseColumns.Forwarded));
+            result.Ticket = getString(element.Element(CaseColumns.Ticket));
+            result.DiscussionTopic = DiscussionId.FromInt(getInt(element.Element(CaseColumns.DiscussionTopicId)));
+            result.DueDate = getDate(element.Element(CaseColumns.DueDate));
+            result.ReleaseNotes = getString(element.Element(CaseColumns.ReleaseNotes));
+            result.LastViewedEvent = EventId.FromInt(getInt(element.Element(CaseColumns.LastViewedEventId)));
+            result.LastViewedDate = getDate(element.Element(CaseColumns.LastViewedDate));
+            result.ScoutDescription = getString(element.Element(CaseColumns.ScoutDescription));
+            result.ScoutMessage = getString(element.Element(CaseColumns.ScoutMessage));
+            result.ScoutStopReporting = getBool(element.Element(CaseColumns.ScoutStopReporting));
+            result.ScoutLastOccurrence = getDate(element.Element(CaseColumns.ScoutLastOccurrence));
+            result.Subscribed = getBool(element.Element(CaseColumns.Subscribed));
 
-            var operations = element.Attribute("operations");
+            //var operations = element.Attribute("operations");
             return result;
         }
 
         private static string[] getTags(XElement caseElement)
         {
-            var tagsElement = caseElement.Element("tags");
+            var tagsElement = caseElement.Element(CaseColumns.Tags);
             return tagsElement == null ? new string[0] : getStrings(tagsElement.Elements("tag"));
         }
 
@@ -125,12 +126,12 @@ namespace FogBugz.Api.Parsers
 
         static Project getProject(XElement element)
         {
-            var id = getInt(element.Element("ixProject"));
+            var id = getInt(element.Element(CaseColumns.ProjectId));
             if (id == 0) return null;
             return new Project
                 {
                     Id = id,
-                    Name = getString(element.Element("sProject"))
+                    Name = getString(element.Element(CaseColumns.Project))
                 };
         }
 

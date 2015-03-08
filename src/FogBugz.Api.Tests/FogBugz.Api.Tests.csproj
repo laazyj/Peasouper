@@ -49,7 +49,6 @@
     <Reference Include="System.Xml.XDocument" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FogBugzClientTest.cs" />
     <Compile Include="Parsers\CaseParserTest.cs" />
     <Compile Include="Parsers\FiltersListParserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

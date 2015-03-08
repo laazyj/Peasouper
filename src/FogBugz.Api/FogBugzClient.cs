@@ -113,7 +113,7 @@ namespace FogBugz.Api
 
 	    public Case GetCase(CaseId id)
 	    {
-            return GetCase(id, DefaultCaseColumns);
+            return GetCase(id, CaseColumns.Defaults);
         }
 
 	    public Case GetCase(CaseId id, string[] columns)
@@ -166,9 +166,10 @@ namespace FogBugz.Api
 	    {
             EnsureApiVersion();
 	        var uri = new Url(ApiUrl)
-	            .SetQueryParams(parameters)
-                .SetQueryParam("token", LoginToken)
-                .SetQueryParam("cmd", command);
+	            .SetQueryParam("token", LoginToken)
+	            .SetQueryParam("cmd", command)
+	            .SetQueryParams(parameters);
+
 	        var response = HttpClient.GetAsync(uri.ToString()).Result;
 	        return response;
 	    }

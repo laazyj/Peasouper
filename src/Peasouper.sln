@@ -14,6 +14,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A1966D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Peasouper.Tests", "Peasouper.Tests\Peasouper.Tests.csproj", "{CF6F8880-CDA6-4AD4-9F16-D9FC23EC518A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7D34606B-6FD0-499A-9330-161AA2A36957}"
+	ProjectSection(SolutionItems) = preProject
+		Peasouper.nuspec = Peasouper.nuspec
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

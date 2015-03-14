@@ -2,15 +2,21 @@
 <package >
   <metadata>
     <id>Peasouper</id>
-    <version>0.1.0</version>
+    <title>Peasouper</title>
+    <version>0.1.1</version>
     <authors>Jason Duffett</authors>
     <owners>Jason Duffett</owners>
     <licenseUrl>https://github.com/laazyj/Peasouper/blob/master/LICENSE.txt</licenseUrl>
     <projectUrl>https://github.com/laazyj/Peasouper</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Portable .NET API for Fog Creek's FogBugz bug tracking system</description>
+    <summary>Peasouper is a portable .NET API for interfacing with Fog Creek's Fogbugz bug tracking software (http://www.fogcreek.com/fogbugz/).
+
+Peasouper is open source software, licensed under the terms of Apache 2.0 license. See LICENSE.txt for details.
+
+For more information, see the GitHub repository (https://github.com/laazyj/Peasouper)</summary>
     <copyright>Copyright 2015 Jason Duffett</copyright>
-    <tags>fogbugz</tags>
+    <tags>fogbugz pcl monotouch ios monodroid android winrt</tags>
     <dependencies>
       <dependency id="Flurl" version="1.0.5" />
       <dependency id="Microsoft.Bcl" version="1.1.9" />
@@ -21,6 +27,9 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="Peasouper\bin\Release\Peasouper.dll" target="lib\net45" />
+    <!-- Generic -->
+    <file src="Peasouper\bin\Release\Peasouper.dll" target="lib\net40" />
+    <!-- PCL -->
+    <file src="Peasouper\bin\Release\Peasouper.dll" target="lib\portable-win8+net45+wp8+wpa81+MonoAndroid1+MonoTouch1" />
   </files>
 </package>

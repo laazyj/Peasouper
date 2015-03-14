@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FogBugz.Api", "FogBugz.Api\FogBugz.Api.csproj", "{E5E5DA54-BEE9-474F-8148-989B308073A7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FogBugz.Api.Tests", "FogBugz.Api.Tests\FogBugz.Api.Tests.csproj", "{CF6F8880-CDA6-4AD4-9F16-D9FC23EC518A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Peasouper", "Peasouper\Peasouper.csproj", "{E5E5DA54-BEE9-474F-8148-989B308073A7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A1966D7E-4C9D-4408-9F4C-A0E1EFF302C5}"
 	ProjectSection(SolutionItems) = preProject
@@ -13,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{A1966D
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Peasouper.Tests", "Peasouper.Tests\Peasouper.Tests.csproj", "{CF6F8880-CDA6-4AD4-9F16-D9FC23EC518A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

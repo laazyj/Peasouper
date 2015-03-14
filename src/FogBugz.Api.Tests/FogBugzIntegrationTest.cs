@@ -60,6 +60,12 @@ namespace FogBugz.Api.Tests
 	        }
 	    }
 
+        /// <summary>
+        /// NOTE: There are some limitations in the listFilters API related to returning the current filter:
+        ///   1. Two filters that are identical but with different names cannot be distinguished. It's possible none of them will come back flagged as "current".
+        ///   2. There are some undocumented restrictions around filter names. "integration-test-1" and "integration-test-2" would not work.
+        /// Fog Creek have case FC2855671 for this.
+        /// </summary>
         [Test]
         public void SetCurrentFilterTest()
         {
@@ -79,7 +85,6 @@ namespace FogBugz.Api.Tests
                 subject.SetFilter(f2);
                 Assert.AreEqual(f2, subject.GetCurrentFilter());
 
-                // TODO: SetCurrentFilter command is not raising an error, but the filter list isn't showing the current status. Contacted Fog Creek support about this.
                 subject.SetFilter(f1.Id);
                 var current = subject.GetCurrentFilter();
                 Assert.NotNull(current, "No current filter set.");
@@ -112,7 +117,7 @@ namespace FogBugz.Api.Tests
                 Assert.AreEqual("Undecided", c.FixFor.Name);
                 Assert.AreEqual("Bug", c.Category.Name);
                 Assert.AreEqual("Active", c.Status.Name);
-                Assert.AreEqual("1 - Must Fix", c.Status.Name);
+                Assert.AreEqual("Must Fix", c.Priority.Name);
                 Assert.IsNotNull(c.AssignedTo);
                 Assert.IsNotNull(c.AssignedTo.Id);
                 Assert.IsNotNull(c.AssignedTo.FullName);
